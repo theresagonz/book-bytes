@@ -46,7 +46,7 @@ class BookBytes::CLI
       when "1"
         puts "Here's the beginning of a literary book:"
         puts ""
-        puts BookBytes::Book.new
+        puts BookBytes::Genre.new
       when "2"
         puts "Here's the beginning of a humor book:"
         puts ""

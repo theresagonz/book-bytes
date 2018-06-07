@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["theresa.l.morelli@gmail.com"]
 
   spec.summary       = %q{Book serendipity in small bytes}
-  spec.description   = %q{Choose a genre you love and read the first page of one book at a time}
+  spec.description   = %q{Choose a genre you love and read the first bit of one book at a time}
   spec.homepage      = "https://github.com/theresamorelli/book-bytes"
   spec.license       = "MIT"
 
