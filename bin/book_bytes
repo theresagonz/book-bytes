@@ -2,6 +2,11 @@
 
 require "bundler/setup"
 require "book_bytes"
+require "book_bytes/cli"
+# require "book_bytes/book"
+# require "book_bytes/genre"
+
+BookBytes::CLI.new.call
 
 # You can add fixtures and/or initialization code here to make experimenting
 # with your gem easier. You can also use a different console, if you like.
@@ -10,5 +15,5 @@ require "book_bytes"
 # require "pry"
 # Pry.start
 
-require "irb"
-IRB.start(__FILE__)
+# require "irb"
+# IRB.start(__FILE__)
