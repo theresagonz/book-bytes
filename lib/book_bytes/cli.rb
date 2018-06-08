@@ -26,7 +26,7 @@ class BookBytes::CLI
     BookBytes::Genre.generate_genres
 
     puts "-----------------------------"
-    puts "**** GENRES ***"
+    puts "*** GENRES ***"
     BookBytes::Genre.all.each_with_index do |g, i|
       puts "#{i + 1}. #{g.name}"
     end
@@ -44,14 +44,18 @@ class BookBytes::CLI
       index = input.to_i - 1
       genre_array = BookBytes::Genre.all
 
+      BookBytes::Book.generate_books
+
       if input.to_i > 0 && index < genre_array.length
         # seems like biography/memoir doesn't need 'book' at the end
         if index != 4
           puts "Here's the beginning of a #{genre_array[index].name} book:"
+          puts
+          BookBytes::Book.rand_text
+          puts
         else
           puts "Here's the beginning of a #{genre_array[index].name}:"
         end
-
       elsif input == "list"
         list_cats
       else
