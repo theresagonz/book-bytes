@@ -1,16 +1,18 @@
 require 'pry'
 
 class BookBytes::Book
-  attr_accessor :title, :author, :genre, :text
+  attr_accessor :title, :author, :genre, :text, :curr_book
     
-  @@all = [] 
-
+  @@all = []
+  @@curr_book = nil
+  
   def initialize(title, author, genre, text)
     @title = title
     @author = author
     @genre = genre
     @text = text
-
+    
+    # @@curr_book = nil
     @@all << self
   end
   
@@ -93,9 +95,35 @@ class BookBytes::Book
       author: "Leo Tolstoy",
       text: "'My love keeps growing more passionate and selfish, while his is dying, and that's why we're drifting apart,' Anna says, near the end. 'He is everything to me, and I want him more and more to give himself up to me entirely. And he wants more and more to get away from me. . . . If I could be anything but a mistress, passionately caring for nothing but his caresses; but I can't and I don't care to be anything else. And by that desire I rouse aversion in him, and he rouses fury in me, and it cannot be different.'",
       genre: BookBytes::Genre.find_genre("history")
+    },
+    {
+      title: "Anna Karenina",
+      author: "Leo Tolstoy",
+      text: "'My love keeps growing more passionate and selfish, while his is dying, and that's why we're drifting apart,' Anna says, near the end. 'He is everything to me, and I want him more and more to give himself up to me entirely. And he wants more and more to get away from me. . . . If I could be anything but a mistress, passionately caring for nothing but his caresses; but I can't and I don't care to be anything else. And by that desire I rouse aversion in him, and he rouses fury in me, and it cannot be different.'",
+      genre: BookBytes::Genre.find_genre("mystery")
     }]
 
     book_array.each {|b| self.add_or_skip_book(b[:title], b[:author], b[:text], b[:genre].name)}
+  end
+
+  def self.random_text(genre_name)
+    random_book = BookBytes::Genre.find_genre(genre_name).books.shuffle[0]
+    @@curr_book = random_book
+    # puts random_book.text
+    random_book
+  end
+  
+  def self.curr_book
+    @@curr_book
+  end
+
+  def self.reveal_info
+    puts "And your requested info is..."
+    puts
+    sleep 2
+    puts "*** Title: #{curr_book.title}"
+    puts "*** Author: #{curr_book.author}"
+    puts
   end
 
   def self.all

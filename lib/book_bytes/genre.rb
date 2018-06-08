@@ -25,9 +25,4 @@ class BookBytes::Genre
   def self.find_genre(genre_name)
     self.all.find {|g| g.name == genre_name}
   end
-
-  def self.rand_text(genre_name)
-    # returns the 'text' value of a random book
-    puts find_genre(genre_name).books.shuffle[0].text
-  end
 end
