@@ -14,15 +14,20 @@ class BookBytes::Genre
   def self.all
     @@all
   end
-
+  
   def self.generate_genres
-    genre_names = ["literary", "humor", "mystery", "sci-fi & fantasy", "biography & memoir", "social science", "history", "arts", "philosophy", "nature"]
+    genre_names = ["literary", "humor", "mystery", "sci-fi/fantasy", "biography/memoir", "social science", "history", "art", "philosophy", "classic"]
     
     # creates new genres
-    genre_names.each {|name| self.new(name)}
+    genre_names.each {|name| self.new(name) if !self.find_genre(name)}
   end
-
+  
   def self.find_genre(genre_name)
     self.all.find {|g| g.name == genre_name}
+  end
+
+  def self.rand_text(genre_name)
+    # returns the 'text' value of a random book
+    puts find_genre(genre_name).books.shuffle[0].text
   end
 end

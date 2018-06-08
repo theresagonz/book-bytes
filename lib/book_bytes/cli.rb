@@ -12,7 +12,7 @@ class BookBytes::CLI
     puts
     puts "-----------------------------"
     puts "*** WELCOME TO BOOKBYTES! ***"
-    puts "Discover new super cool reads"
+    puts "Discover super cool new reads"
     puts "-----------------------------"
     puts
   end
@@ -47,14 +47,18 @@ class BookBytes::CLI
       BookBytes::Book.generate_books
 
       if input.to_i > 0 && index < genre_array.length
-        # seems like biography/memoir doesn't need 'book' at the end
+        genre_name = genre_array[index].name
+
         if index != 4
-          puts "Here's the beginning of a #{genre_array[index].name} book:"
+          puts "Here's the beginning of a #{genre_name} book:"
           puts
-          BookBytes::Book.rand_text
+          puts BookBytes::Genre.rand_text(genre_name)
           puts
         else
-          puts "Here's the beginning of a #{genre_array[index].name}:"
+          puts "Here's the beginning of a #{genre_name}:"
+          puts
+          puts BookBytes::Genre.rand_text(genre_name)
+          puts 
         end
       elsif input == "list"
         list_cats
