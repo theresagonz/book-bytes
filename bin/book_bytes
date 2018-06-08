@@ -1,10 +1,15 @@
 #!/usr/bin/env ruby
 
+require 'rubygems'
+require 'nokogiri'
+require 'open-uri'
+
 require "bundler/setup"
 require "book_bytes"
 require "book_bytes/cli"
 require "book_bytes/book"
 require "book_bytes/genre"
+require "book_bytes/scraper"
 
 BookBytes::CLI.new.call
 
@@ -17,3 +22,4 @@ BookBytes::CLI.new.call
 
 # require "irb"
 # IRB.start(__FILE__)
+require "nokogiri"
