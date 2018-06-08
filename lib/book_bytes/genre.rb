@@ -16,7 +16,7 @@ class BookBytes::Genre
   end
 
   def self.generate_genres
-    genre_names = ["literary", "humor", "mystery", "sci-fi & fantasy", "biography & memoir"]
+    genre_names = ["literary", "humor", "mystery", "sci-fi & fantasy", "biography & memoir", "social sciences", "history", "arts", "philosophy", "outdoors & nature"]
     
     # creates new genres
     genre_names.each {|name| self.new(name)}
