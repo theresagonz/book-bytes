@@ -28,7 +28,7 @@ class BookBytes::CLI
     2. humor
     3. mystery
     4. sci-fi & fantasy
-    5. biography & memoirs
+    5. biography & memoir
     DOC
     # 6. social sciences
     # 7. history
@@ -42,11 +42,21 @@ class BookBytes::CLI
     
     while input != "exit"
       input = gets.chomp.downcase
+      genre_array = BookBytes::Genre.all
       case input
       when "1"
         puts "Here's the beginning of a literary book:"
         puts ""
-        puts BookBytes::Genre.new
+
+        # The commented out code below is for testing associations
+
+        # BookBytes::Genre.generate_genres
+        # BookBytes::Book.add_book("Godel, Escher, Bach", "Douglas R. Hofstadter", "humor", "Godel Escher and Bach were super cool dudes")
+        # binding.pry
+        # puts BookBytes::Genre.all
+        # newbook = BookBytes::Book.new
+        # newbook.add_book_details("Godel, Escher, Bach", "Douglas R. Hofstadter", BookBytes::Genre.new, "Godel Escher and Bach were super cool dudes")
+        # puts newbook.genre.all
       when "2"
         puts "Here's the beginning of a humor book:"
         puts ""
