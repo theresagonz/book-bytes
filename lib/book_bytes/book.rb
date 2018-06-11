@@ -27,12 +27,14 @@ class BookBytes::Book
     new_book
   end
 
-  def self.random_text(genre_name)
-    random_book = BookBytes::Genre.find_genre(genre_name).books.shuffle[0]
-    @@curr_book = random_book
-    # puts random_book.text
-    random_book
-  end
+  # def self.get_random_text(genre_name)
+  #   BookBytes::Scraper.get_book_details(genre_name)
+    
+  #   # random_book = BookBytes::Genre.find_genre(genre_name).books.shuffle[0]
+  #   # @@curr_book = random_book
+  #   # puts random_book.text
+  #   # random_book
+  # end
   
   def self.curr_book
     @@curr_book

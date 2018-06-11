@@ -23,13 +23,14 @@ class BookBytes::Scraper
     "http://www.bookdaily.com#{extension}?perpage=60"
   end
 
-  def self.get_book_page
-    extension = Nokogiri::HTML(open(get_genre_page("Humor & Entertainment"))).css("div#nodeGrid article:nth-child(#{rand(60)}) a").attribute("href").value
+  def self.get_random_book_page(genre_name)
+    # from the genre page with many books, get a random book page
+    extension = Nokogiri::HTML(open(get_genre_page(genre_name))).css("div#nodeGrid article:nth-child(#{rand(60)}) a").attribute("href").value
     "http://www.bookdaily.com#{extension}"
   end
   
-  def self.get_book_details
-    book_info = Nokogiri::HTML(open(get_book_page)).css("section.book")
+  def self.get_random_book(genre_name)
+    book_info = Nokogiri::HTML(open(get_random_book_page(genre_name))).css("section.book")
 
     title = book_info.css("section.book-intro h1.booktitle").text
     author = book_info.css("p:nth-child(2) a").text
@@ -44,6 +45,6 @@ class BookBytes::Scraper
       text << book_info.css("article.book-details p:nth-child(#{i})").text
     end
 
-    book_obj = BookBytes::Book.create_new_book(title, author, genre, text)
+    BookBytes::Book.create_new_book(title, author, genre, text)
   end
 end
