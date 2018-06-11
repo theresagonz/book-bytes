@@ -3,10 +3,7 @@ require 'pry'
 class BookBytes::CLI
   def call
     BookBytes::Genre.generate_genres
-    # puts BookBytes::Genre.find_genre("History")
-    # genres_official = ["Arts & Photography", "Biographies & Memoirs", "Cooking, Food & Wine", "History", "Humor & Entertainment", "Literature & Fiction", "Mystery & Thrillers", "Outdoors & Nature", "Politics & Social Sciences", "Romance", "Science", "Science Fiction & Fantasy", "Self-Help", "Sports", "Travel"]
     BookBytes::Scraper.get_book_details
-    # BookBytes::Scraper.get_book
     hello
     cat_prompt
     list_cats
@@ -24,7 +21,7 @@ class BookBytes::CLI
   end
 
   def cat_prompt
-    puts "Pick a genre, any genre!"
+    puts "   Pick a genre, any genre"
     puts
   end
     

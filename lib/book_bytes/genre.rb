@@ -1,7 +1,7 @@
 require 'pry'
 
 class BookBytes::Genre
-  attr_accessor :name, :books
+  attr_accessor :name
     
   @@all = []
 
