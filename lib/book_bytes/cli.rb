@@ -3,7 +3,7 @@ require 'pry'
 class BookBytes::CLI
   def call
     hello
-    genre_prompt
+    first_prompt
     list_genres
     parse_input
   end
@@ -17,7 +17,7 @@ class BookBytes::CLI
     puts
   end
 
-  def genre_prompt
+  def first_prompt
     # I separated this part from list_genres so that this doesn't reprint if the user chooses to see the list again
     puts "   Pick a genre, any genre!"
     puts
@@ -31,8 +31,10 @@ class BookBytes::CLI
     BookBytes::Genre.all.each_with_index do |g, i|
       puts "[#{i + 1}] #{g.name}"
     end
+    second_prompt
+  end
 
-    # I want this prompt every time the list is shown
+  def second_prompt
     puts
     puts "Enter the number of your selection, type 'list' to see the list again, or type 'exit'."
     puts
@@ -50,11 +52,15 @@ class BookBytes::CLI
       if input.to_i > 0 && index < BookBytes::Genre.all.length
         genre_name = genres[index].name
         print_byte(genre_name)
-        prompt
+        swipe_prompt
       elsif input.downcase == "list"
         list_genres
       elsif input.downcase == "exit"
+        goodbye
       else
+        puts "Hmm, that input seems to be invalid. Please try again."
+        second_prompt
+        parse_input
       end
     end
 
@@ -64,7 +70,6 @@ class BookBytes::CLI
     puts "-------------------------------"
     puts
     # so that text will kind of be printed really fast instead of just appearing. Might make program slower tho
-    # BookBytes::Scraper.get_book_details()
     BookBytes::Scraper.get_random_book(genre_name).text.split(//).each do |character|
       print character
       sleep 0.0003
@@ -76,26 +81,27 @@ class BookBytes::CLI
   end
 
   def swipe_prompt
-    puts "Please enter your choice or type 'exit'"
-    puts "[y] I like it! Get the title and author"
-    puts "[n] Get another!"
-
-    puts "4. Exit the program"
+    puts "Please enter your selection, type 'back' to go back to the genre list, or type 'exit'"
+    puts
+    puts "[Y] I like it! Get the title and author"
+    puts "[N] Get another!"
     puts
     input = gets.chomp
 
-    case input
-    when "1"
+    case input.downcase
+    when "y"
+      BookBytes::Book.chosen.last.swipe = true
+      binding.pry
       BookBytes::Book.reveal_info
       sleep 1.5
       reprompt
-    when "2"
+    when "n"
       print_byte(BookBytes::Book.chosen.last.name)
-      prompt
-    when "3"
+      swipe_prompt
+    when "back"
       list_genres
-      cat_menu
-    when "4" || "exit"
+      # cat_menu
+    when "exit"
       goodbye
     end
   end
@@ -113,7 +119,7 @@ class BookBytes::CLI
       reprompt
     when "2"
       list_genres
-      cat_menu
+      # cat_menu
     when "3" || "exit"
       goodbye
     end
