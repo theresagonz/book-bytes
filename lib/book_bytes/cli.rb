@@ -2,7 +2,8 @@ require 'pry'
 
 class BookBytes::CLI
   def call
-    BookBytes::Scraper.get_book_details
+    BookBytes::Scraper.get_genre_hash
+    puts BookBytes::Scraper.genres
     hello
     cat_prompt
     list_cats

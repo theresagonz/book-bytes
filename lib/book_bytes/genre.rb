@@ -16,7 +16,8 @@ class BookBytes::Genre
   end
   
   def self.generate_genres
-    genre_names = ["literary", "humor", "mystery", "sci-fi/fantasy", "biography/memoir", "social science", "history", "art", "philosophy", "classic"]
+    # genres should be a hash - genres[:books] is an array of actual stored book instances?
+    genre_names = ["art/photography", "biography/memoir", "cooking/food", "history", "humor", "literary", "mystery", "outdoors/nature", "romance", "sci-fi/fantasy", "science", "self-help", "social science", "sports", "travel"]
     
     # creates new genres
     genre_names.each {|name| self.new(name) if !self.find_genre(name)}

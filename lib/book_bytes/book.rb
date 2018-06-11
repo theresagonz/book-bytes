@@ -9,7 +9,7 @@ class BookBytes::Book
   def initialize(title, author, genre, text)
     @title = title
     @author = author
-    @genre = genre
+    @genre = genre # this is object
     @text = text
     
     # @@curr_book = nil
