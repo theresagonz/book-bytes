@@ -2,8 +2,11 @@ require 'pry'
 
 class BookBytes::CLI
   def call
-    BookBytes::Scraper.get_genre_hash
-    puts BookBytes::Scraper.genres
+    BookBytes::Genre.generate_genres
+    # puts BookBytes::Genre.find_genre("History")
+    # genres_official = ["Arts & Photography", "Biographies & Memoirs", "Cooking, Food & Wine", "History", "Humor & Entertainment", "Literature & Fiction", "Mystery & Thrillers", "Outdoors & Nature", "Politics & Social Sciences", "Romance", "Science", "Science Fiction & Fantasy", "Self-Help", "Sports", "Travel"]
+    BookBytes::Scraper.get_book_details
+    # BookBytes::Scraper.get_book
     hello
     cat_prompt
     list_cats
@@ -46,9 +49,10 @@ class BookBytes::CLI
       input = gets.chomp.downcase
       index = input.to_i - 1
       genre_array = BookBytes::Genre.all
-
+    # based on the input scrape just selected page for all books
       BookBytes::Book.generate_books
-
+      # 
+BookBytes::Scraper.genres[]
       if input.to_i > 0 && index < genre_array.length
         genre_name = genre_array[index].name
         print_byte(genre_name)
@@ -89,7 +93,7 @@ class BookBytes::CLI
     case input
     when "1"
       BookBytes::Book.reveal_info
-      sleep 5
+      sleep 1.5
       reprompt
     when "2"
       print_byte(BookBytes::Book.curr_book.genre.name)
