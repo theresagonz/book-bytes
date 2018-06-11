@@ -29,7 +29,6 @@ class BookBytes::Scraper
   end
   
   def self.get_book_details
-    # I want this to return a hash
     book_info = Nokogiri::HTML(open(get_book_page)).css("section.book")
 
     title = book_info.css("section.book-intro h1.booktitle").text
@@ -46,7 +45,5 @@ class BookBytes::Scraper
     end
 
     book_obj = BookBytes::Book.create_new_book(title, author, genre, text)
-    # book_obj = {title: title, author: author, text: text, genre: @genre}
-    # puts book_obj[:title]
   end
 end

@@ -13,23 +13,23 @@ class BookBytes::CLI
 
   def hello
     puts
-    puts "-----------------------------"
-    puts "*** WELCOME TO BOOKBYTES! ***"
-    puts "Discover super cool new reads"
-    puts "-----------------------------"
+    puts "-------------------------------"
+    puts "***** WELCOME TO BOOKBYTES ****"
+    puts "Book serendipity in small bytes"
+    puts "-------------------------------"
     puts
   end
 
   def cat_prompt
-    puts "   Pick a genre, any genre"
+    puts "   Pick a genre, any genre!"
     puts
   end
     
   def list_cats
     BookBytes::Genre.generate_genres
 
-    puts "-----------------------------"
-    puts "*** GENRES ***"
+    puts "-------------------------------"
+    puts "      *** GENRES ***"
     BookBytes::Genre.all.each_with_index do |g, i|
       puts "#{i + 1}. #{g.name}"
     end
@@ -66,7 +66,7 @@ BookBytes::Scraper.genres[]
   def print_byte(genre_name)
     puts "Here's the beginning of a #{genre_name} book:"
     puts
-    puts "-----------------------------"
+    puts "-------------------------------"
     puts
     BookBytes::Book.random_text(genre_name).text.split(//).each do |character|
       print character
@@ -74,7 +74,7 @@ BookBytes::Scraper.genres[]
     end
     puts
     puts
-    puts "-----------------------------"
+    puts "-------------------------------"
     # sleep 10
   end
 
@@ -104,7 +104,7 @@ BookBytes::Scraper.genres[]
   end
 
   def reprompt
-    puts "-----------------------------"
+    puts "-------------------------------"
     puts "So glad you liked the snippet!"
     puts "1. Get a different snippet in the same genre"
     puts "2. Choose a different genre"
