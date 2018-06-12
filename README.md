@@ -1,8 +1,6 @@
 # BookBytes
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/book_bytes`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Welcome to BookBytes where you can discover awesome new books or rediscover old favorites.
 
 ## Installation
 
@@ -22,7 +20,13 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+- Download or clone the project file
+- Open the console, navigate to the root project folder
+- Type:
+```ruby
+ruby bin/book_bytes
+```
+- Follow the on-screen prompts
 
 ## Development
 
