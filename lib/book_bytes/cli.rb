@@ -90,13 +90,12 @@ class BookBytes::CLI
 
     case input.downcase
     when "y"
-      BookBytes::Book.chosen.last.swipe = true
-      binding.pry
+      BookBytes::Book.shown.last.swiped = true
       BookBytes::Book.reveal_info
       sleep 1.5
       reprompt
     when "n"
-      print_byte(BookBytes::Book.chosen.last.name)
+      print_byte(BookBytes::Book.shown.last.name)
       swipe_prompt
     when "back"
       list_genres
@@ -109,6 +108,7 @@ class BookBytes::CLI
   def reprompt
     puts "-------------------------------"
     puts "So glad you liked the snippet!"
+    puts
     puts "1. Get a different snippet in the same genre"
     puts "2. Choose a different genre"
     puts "3. Exit the program"

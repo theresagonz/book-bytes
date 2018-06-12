@@ -1,29 +1,29 @@
 require 'pry'
 
 class BookBytes::Book
-  attr_accessor :title, :author, :genre, :text, :swipe
+  attr_accessor :title, :author, :genre, :text, :swiped
     
-  @@chosen = []
+  @@shown = []
  
   # Keep track of and be able to return which books have been shown and for which more information has been requested
   # option to show this at the end
-  # current book is always last in @@chosen array
+  # current book is always last in @@shown array
   def initialize(title, author, genre, text)
     @title = title
     @author = author
     @genre = genre # this is object
     @text = text
-    @swipe = false
+    @swiped = false
   end
 
-  def self.chosen
-    @@chosen
+  def self.shown
+    @@shown
   end
 
   def self.create_new_book(title, author, genre, text)
     new_book = self.new(title, author, genre, text)
     
-    @@chosen << new_book
+    @@shown << new_book
     new_book
   end
 
@@ -41,11 +41,12 @@ class BookBytes::Book
   end
 
   def self.reveal_info
+    puts
     puts "And your requested info is..."
     puts
     sleep 2
-    puts "*** Title: #{curr_book.title}"
-    puts "*** Author: #{curr_book.author}"
+    puts "*** Title: #{@@shown.last.title}"
+    puts "*** Author: #{@@shown.last.author}"
     puts
   end
 
