@@ -69,8 +69,12 @@ class BookBytes::CLI
 
   def print_byte(genre_name)
     @viewed_likes = false
-    puts "Here's the beginning of a #{genre_name} book:"
-    puts
+    # if the first letter starts with a vowel, make the sentence more grammatically correct
+    if genre_name[0,1].downcase.match(/[aeiou]/)
+      puts "Here's the beginning of an #{genre_name} book:"
+    else
+      puts "Here's the beginning of a #{genre_name} book:"
+    end
     puts "-------------------------------"
     puts
     # so that text will kind of be printed really fast instead of just appearing. Might make program slower tho
@@ -114,9 +118,11 @@ class BookBytes::CLI
   end
 
   def reprompt
-    # puts "-------------------------------"
-    puts if self.viewed_likes == false
-    puts "So glad you liked the byte!"  if self.viewed_likes == false
+    if self.viewed_likes == false
+      puts "-------------------------------"
+      puts
+      puts "Glad you like!"
+    end
     puts
     puts "[1] Get a different byte in the same genre"
     puts "[2] Go back to the genre list"
@@ -132,11 +138,11 @@ class BookBytes::CLI
       list_genres
     when "3"
       @viewed_likes = true
-      puts "You liked these books:"
+      puts "You have liked these books:"
       puts
       swiped_books = BookBytes::Book.shown.select {|book| book.swiped == true}
       swiped_books.each_with_index do |b, i|
-        puts "* '#{b.title}' by #{b.author}"
+        puts "*** '#{b.title}' by #{b.author}"
       end
         puts
         puts "-------------------------------"
@@ -155,7 +161,7 @@ class BookBytes::CLI
   def goodbye
     puts
     puts "Book excerpts courtesy of bookdaily.com"
-    puts "Thanks for stopping by ;)"
+    puts "Thanks for stopping by :)"
     puts
   end
 end

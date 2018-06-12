@@ -25,8 +25,8 @@ class BookBytes::Scraper
 
   def self.get_random_book_page(genre_name)
     # from the genre page with many books, get a random book page
-    extension = Nokogiri::HTML(open(get_genre_page(genre_name))).css("div#nodeGrid article:nth-child(#{rand(60)}) a").attribute("href").value
-    "http://www.bookdaily.com#{extension}"
+    url = Nokogiri::HTML(open(get_genre_page(genre_name))).css("div#nodeGrid article:nth-child(#{rand(59) + 1}) a").attribute("href").value
+    "http://www.bookdaily.com#{url}"
   end
   
   def self.get_random_book(genre_name)
@@ -36,15 +36,26 @@ class BookBytes::Scraper
     author = book_info.css("p:nth-child(2) a").text
     genre = self.genre
 
-    text = ""
-    i = 0
-      
-    # adds a paragraph at a time to the text string until it is longer than 1000 characters
-    until text.length > 1000
-      i += 1
-      text << book_info.css("article.book-details p:nth-child(#{i})").text
-    end
+    if self.check_for_duplicate?(title, author)
+      text = ""
+      i = 0
+        
+      # adds a paragraph at a time to the text string until it is longer than 1000 characters
+      until text.length > 1000
+        i += 1
+        text << book_info.css("article.book-details p:nth-child(#{i})").text
+      end
 
-    BookBytes::Book.create_new_book(title, author, genre, text)
+      BookBytes::Book.create_new_book(title, author, genre, text)
+    else
+      get_random_book(genre_name)
+    end
+  end
+
+  def self.check_for_duplicate?(title, author)
+    # returns true if no duplicates
+    BookBytes::Book.shown.all? do |book|
+      book.title != title && book.author != author
+    end
   end
 end
