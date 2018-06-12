@@ -6,7 +6,6 @@ class BookBytes::CLI
   def call
     @viewed_likes = false
     hello
-    first_prompt
     list_genres
   end
 
@@ -17,10 +16,6 @@ class BookBytes::CLI
     puts "Book serendipity in small bytes"
     puts "-------------------------------"
     puts
-  end
-
-  def first_prompt
-    # I separated this part from list_genres so that this doesn't reprint if the user chooses to see the list again
     puts "   Pick a genre, any genre!"
     puts
   end
@@ -78,14 +73,15 @@ class BookBytes::CLI
     puts "-------------------------------"
     puts
     # so that text will kind of be printed really fast instead of just appearing. Might make program slower tho
-    BookBytes::Scraper.get_random_book(genre_name).text.split(//).each do |character|
-      print character
-      sleep 0.0004
-    end
+    puts BookBytes::Scraper.get_random_book(genre_name).text
+    # .split(//).each do |character|
+      # print character
+      # sleep 0.0004
+    # end
     puts
     puts
     puts "-------------------------------"
-    sleep 5
+    sleep 7
   end
 
   def swipe_prompt
@@ -118,6 +114,7 @@ class BookBytes::CLI
   end
 
   def reprompt
+    # don't display this if you've already seen it for this book
     if self.viewed_likes == false
       puts "-------------------------------"
       puts
@@ -126,7 +123,7 @@ class BookBytes::CLI
     puts
     puts "[1] Get a different byte in the same genre"
     puts "[2] Go back to the genre list"
-    puts "[3] See info about all the books you have liked" if self.viewed_likes == false
+    puts "[3] See all the books you've liked" if self.viewed_likes == false
     puts
     puts "Please enter your selection or type 'exit'"
     puts
@@ -141,7 +138,7 @@ class BookBytes::CLI
       puts "You have liked these books:"
       puts
       swiped_books = BookBytes::Book.shown.select {|book| book.swiped == true}
-      swiped_books.each_with_index do |b, i|
+      swiped_books.each do |b|
         puts "*** '#{b.title}' by #{b.author}"
       end
         puts

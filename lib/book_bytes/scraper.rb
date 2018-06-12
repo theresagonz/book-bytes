@@ -25,7 +25,7 @@ class BookBytes::Scraper
 
   def self.get_random_book_page(genre_name)
     # from the genre page with many books, get a random book page
-    url = Nokogiri::HTML(open(get_genre_page(genre_name))).css("div#nodeGrid article:nth-child(#{rand(59) + 1}) a").attribute("href").value
+    url = Nokogiri::HTML(open(get_genre_page(genre_name))).css("#nodeGrid article:nth-child(#{rand(59) + 1}) a").attribute("href").value
     "http://www.bookdaily.com#{url}"
   end
   
