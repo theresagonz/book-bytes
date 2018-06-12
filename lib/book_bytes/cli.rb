@@ -5,7 +5,6 @@ class BookBytes::CLI
     hello
     first_prompt
     list_genres
-    parse_input
   end
 
   def hello
@@ -38,6 +37,7 @@ class BookBytes::CLI
     puts
     puts "Enter the number of your selection, type 'list' to see the list again, or type 'exit'."
     puts
+    parse_input
   end
     
   def parse_input
@@ -95,33 +95,41 @@ class BookBytes::CLI
       sleep 1.5
       reprompt
     when "n"
-      print_byte(BookBytes::Book.shown.last.name)
+      print_byte(BookBytes::Genre.current.name)
       swipe_prompt
     when "back"
       list_genres
-      # cat_menu
     when "exit"
       goodbye
+    else
+      puts
+      puts "Hmm, please enter valid input"
+      puts
+      swipe_prompt
     end
   end
 
   def reprompt
     puts "-------------------------------"
-    puts "So glad you liked the snippet!"
+    puts "So glad you liked the byte!"
     puts
-    puts "1. Get a different snippet in the same genre"
-    puts "2. Choose a different genre"
-    puts "3. Exit the program"
-
+    puts "[1] Get a different byte in the same genre"
+    puts "[2] Go back to the genre list"
+    puts
+    puts "Please enter your selection or type 'exit'"
+    puts
     case gets.chomp
     when "1"
-      print_byte(BookBytes::Scraper.get_random_book(genre_name))
+      print_byte(BookBytes::Genre.current.name)
       reprompt
-    when "2"
+    when "2" || "back" || "list"
       list_genres
-      # cat_menu
-    when "3" || "exit"
+    when "exit"
       goodbye
+    else
+      puts "Hmm, that's not valid input. Try again."
+      puts
+      reprompt
     end
   end
       

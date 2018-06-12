@@ -4,6 +4,7 @@ class BookBytes::Genre
   attr_accessor :name
     
   @@all = []
+  @@current = nil
 
   def initialize(name)
     @name = name
@@ -13,6 +14,10 @@ class BookBytes::Genre
 
   def self.all
     @@all
+  end
+
+  def self.current
+    @@current
   end
   
   def self.generate_genres
@@ -25,6 +30,7 @@ class BookBytes::Genre
   end
   
   def self.find_genre(genre_name)
-    self.all.find {|g| g.name == genre_name}
+    @@current = self.all.find {|g| g.name == genre_name}
+    self.current
   end
 end

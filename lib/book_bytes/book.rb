@@ -27,26 +27,13 @@ class BookBytes::Book
     new_book
   end
 
-  # def self.get_random_text(genre_name)
-  #   BookBytes::Scraper.get_book_details(genre_name)
-    
-  #   # random_book = BookBytes::Genre.find_genre(genre_name).books.shuffle[0]
-  #   # @@curr_book = random_book
-  #   # puts random_book.text
-  #   # random_book
-  # end
-  
-  def self.curr_book
-    @@curr_book
-  end
-
   def self.reveal_info
     puts
     puts "And your requested info is..."
     puts
     sleep 2
-    puts "*** Title: #{@@shown.last.title}"
-    puts "*** Author: #{@@shown.last.author}"
+    puts "*** Title: #{self.shown.last.title}"
+    puts "*** Author: #{self.shown.last.author}"
     puts
   end
 
