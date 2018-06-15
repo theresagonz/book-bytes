@@ -16,7 +16,7 @@ class BookBytes::CLI
     puts "Book serendipity in small bytes"
     puts "-------------------------------"
     puts
-    puts "   Pick a genre, any genre!"
+    puts "    Pick a genre, any genre"
     puts
   end
     
@@ -28,39 +28,35 @@ class BookBytes::CLI
     BookBytes::Genre.all.each_with_index do |g, i|
       puts "[#{i + 1}] #{g.name}"
     end
-    second_prompt
+    select_genre_prompt
   end
 
-  def second_prompt
+  def select_genre_prompt
     puts
     puts "Enter the number of your selection, type 'list' to see the list again, or type 'exit'."
     puts
-    parse_input
+    get_genre_input
   end
     
-  def parse_input
-    input = nil
-    
-    # while input != "exit"
-      input = gets.chomp.downcase
-      index = input.to_i - 1
-      genres = BookBytes::Genre.all
-    # here I want to deal with all the input
-      # if it's a number falling in the correct range
-      if input.to_i > 0 && index < BookBytes::Genre.all.length
-        genre_name = genres[index].name
-        print_byte(genre_name)
-        swipe_prompt
-      elsif input.downcase == "list"
-        list_genres
-      elsif input.downcase == "exit"
-        goodbye
-      else
-        puts "Hmm, that input seems to be invalid. Please try again."
-        second_prompt
-        parse_input
-      end
+  def get_genre_input
+    input = gets.chomp.downcase
+    index = input.to_i - 1
+    genres = BookBytes::Genre.all
+
+    if input.to_i > 0 && index < BookBytes::Genre.all.length
+      genre_name = genres[index].name
+      print_byte(genre_name)
+      swipe_prompt
+    elsif input.downcase == "list"
+      list_genres
+    elsif input.downcase == "exit"
+      goodbye
+    else
+      puts "Hmm, that input seems to be invalid. Please try again."
+      select_genre_prompt
+      get_genre_input
     end
+  end
 
   def print_byte(genre_name)
     @viewed_likes = false
@@ -72,13 +68,7 @@ class BookBytes::CLI
     end
     puts "-------------------------------"
     puts
-    # so that text will kind of be printed really fast instead of just appearing. Might make program slower tho
     puts BookBytes::Scraper.get_random_book(genre_name).text
-    # .split(//).each do |character|
-      # print character
-      # sleep 0.0004
-    # end
-    puts
     puts
     puts "-------------------------------"
     sleep 7
@@ -88,8 +78,12 @@ class BookBytes::CLI
     puts "Please enter your selection, type 'back' to go back to the genre list, or type 'exit'"
     puts
     puts "[Y] I like it! Get the title and author"
-    puts "[N] Get a different #{BookBytes::Genre.current.name} byte!"
+    puts "[N] Get a different #{BookBytes::Genre.current.name} byte"
     puts
+    get_swipe_input
+  end
+
+  def get_swipe_input
     input = gets.chomp
 
     case input.downcase
@@ -114,11 +108,12 @@ class BookBytes::CLI
   end
 
   def reprompt
+    messages = ["Glad you dig it!", "Yay for books!", "Book yeah!", "We like that one too!", "Love at first byte!"]
     # don't display this if you've already seen it for this book
     if self.viewed_likes == false
       puts "-------------------------------"
       puts
-      puts "Glad you like!"
+      puts messages[rand(messages.length)]
     end
     puts
     puts "[1] Get a different byte in the same genre"
@@ -135,11 +130,18 @@ class BookBytes::CLI
       list_genres
     when "3"
       @viewed_likes = true
-      puts "You have liked these books:"
-      puts
+
       swiped_books = BookBytes::Book.shown.select {|book| book.swiped == true}
-      swiped_books.each do |b|
-        puts "*** '#{b.title}' by #{b.author}"
+
+      puts "You have liked this book:" if swiped_books.length == 1
+      puts  "You have liked these books:" if swiped_books.length > 1
+      puts
+      swiped_books.each_with_index do |b, i|
+        if swiped_books.length == 1
+          puts "*** '#{b.title}' by #{b.author}"
+        else
+          puts "#{i + 1}) '#{b.title}' by #{b.author}"
+        end
       end
         puts
         puts "-------------------------------"
