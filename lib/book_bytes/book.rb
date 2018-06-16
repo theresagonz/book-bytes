@@ -5,9 +5,6 @@ class BookBytes::Book
     
   @@shown = []
  
-  # Keep track of and be able to return which books have been shown and for which more information has been requested
-  # option to show this at the end
-  # current book is always last in @@shown array
   def initialize(title, author, genre, text)
     @title = title
     @author = author
@@ -21,6 +18,7 @@ class BookBytes::Book
   end
 
   def self.create_new_book(title, author, genre, text)
+    # can i use tap here?
     new_book = self.new(title, author, genre, text)
     
     @@shown << new_book
@@ -29,7 +27,7 @@ class BookBytes::Book
 
   def self.reveal_info
     puts
-    puts "And your requested info is..."
+    puts "Getting your requested info..."
     puts
     sleep 2
     puts "*** Title: #{self.shown.last.title}"

@@ -25,9 +25,11 @@ class BookBytes::CLI
 
     puts "-------------------------------"
     puts "      *** GENRES ***"
+
     BookBytes::Genre.all.each_with_index do |g, i|
       puts "[#{i + 1}] #{g.name}"
     end
+
     select_genre_prompt
   end
 
@@ -35,6 +37,7 @@ class BookBytes::CLI
     puts
     puts "Enter the number of your selection, type 'list' to see the list again, or type 'exit'."
     puts
+
     get_genre_input
   end
     
@@ -60,7 +63,7 @@ class BookBytes::CLI
 
   def print_byte(genre_name)
     @viewed_likes = false
-    # if the first letter starts with a vowel, make the sentence more grammatically correct
+
     if genre_name[0,1].downcase.match(/[aeiou]/)
       puts "Here's the beginning of an #{genre_name} book:"
     else
@@ -109,19 +112,24 @@ class BookBytes::CLI
 
   def reprompt
     messages = ["Glad you dig it!", "Yay for books!", "Book yeah!", "We like that one too!", "Love at first byte!"]
-    # don't display this if you've already seen it for this book
+
     if self.viewed_likes == false
       puts "-------------------------------"
       puts
       puts messages[rand(messages.length)]
     end
     puts
-    puts "[1] Get a different byte in the same genre"
+    puts "[1] Get a different #{BookBytes::Genre.current.name} byte"
     puts "[2] Go back to the genre list"
     puts "[3] See all the books you've liked" if self.viewed_likes == false
     puts
     puts "Please enter your selection or type 'exit'"
     puts
+
+    get_reprompt_input
+  end
+
+  def get_reprompt_input
     case gets.chomp
     when "1"
       print_byte(BookBytes::Genre.current.name)
@@ -130,24 +138,7 @@ class BookBytes::CLI
       list_genres
     when "3"
       @viewed_likes = true
-
-      swiped_books = BookBytes::Book.shown.select {|book| book.swiped == true}
-
-      puts "You have liked this book:" if swiped_books.length == 1
-      puts  "You have liked these books:" if swiped_books.length > 1
-      puts
-      swiped_books.each_with_index do |b, i|
-        if swiped_books.length == 1
-          puts "*** '#{b.title}' by #{b.author}"
-        else
-          puts "#{i + 1}) '#{b.title}' by #{b.author}"
-        end
-      end
-        puts
-        puts "-------------------------------"
-      sleep 3
-      reprompt
-
+      get_swiped_books
     when "exit"
       goodbye
     else
@@ -155,6 +146,28 @@ class BookBytes::CLI
       puts
       reprompt
     end
+  end
+
+  def get_swiped_books
+    swiped_books = BookBytes::Book.shown.select {|book| book.swiped == true}
+
+    puts "You have liked this book:" if swiped_books.length == 1
+    puts  "You have liked these books:" if swiped_books.length > 1
+    puts
+    swiped_books.each_with_index do |b, i|
+      if swiped_books.length == 1
+        print "*** "
+      else
+        print "#{i + 1}) "
+      end
+
+      print "#{b.title}' by #{b.author}"
+      puts
+    end
+      puts
+      puts "-------------------------------"
+    sleep 3
+    reprompt
   end
       
   def goodbye
