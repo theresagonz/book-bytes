@@ -6,6 +6,7 @@ class BookBytes::CLI
   def call
     @viewed_likes = false
     hello
+    BookBytes::Genre.generate_genres
     list_genres
   end
 
@@ -21,8 +22,6 @@ class BookBytes::CLI
   end
     
   def list_genres
-    BookBytes::Genre.generate_genres
-
     puts "-------------------------------"
     puts "      *** GENRES ***"
 
@@ -46,10 +45,9 @@ class BookBytes::CLI
     index = input.to_i - 1
     genres = BookBytes::Genre.all
 
-    if input.to_i > 0 && index < BookBytes::Genre.all.length
+    if input.to_i > 0 && index < genres.length
       genre_name = genres[index].name
       print_byte(genre_name)
-      swipe_prompt
     elsif input.downcase == "list"
       list_genres
     elsif input.downcase == "exit"
@@ -57,7 +55,6 @@ class BookBytes::CLI
     else
       puts "Hmm, that input seems to be invalid. Please try again."
       select_genre_prompt
-      get_genre_input
     end
   end
 
@@ -75,30 +72,30 @@ class BookBytes::CLI
     puts
     puts "-------------------------------"
     sleep 7
+
+    swipe_prompt
   end
 
   def swipe_prompt
-    puts "Please enter your selection, type 'back' to go back to the genre list, or type 'exit'"
+    puts "Please enter your selection, type 'back' to go back to the genre list, or type 'exit'."
     puts
     puts "[Y] I like it! Get the title and author"
     puts "[N] Get a different #{BookBytes::Genre.current.name} byte"
     puts
+    
     get_swipe_input
   end
 
   def get_swipe_input
-    input = gets.chomp
-
-    case input.downcase
-    when "y"
+    case gets.chomp.downcase
+    when "y", "yes"
       BookBytes::Book.shown.last.swiped = true
       BookBytes::Book.reveal_info
       sleep 3
       reprompt
-    when "n"
+    when "n", "no"
       print_byte(BookBytes::Genre.current.name)
-      swipe_prompt
-    when "back"
+    when "back", "list"
       list_genres
     when "exit"
       goodbye
@@ -106,7 +103,7 @@ class BookBytes::CLI
       puts
       puts "Hmm, please enter valid input"
       puts
-      swipe_prompt
+      get_swipe_input
     end
   end
 
@@ -125,16 +122,14 @@ class BookBytes::CLI
     puts
     puts "Please enter your selection or type 'exit'"
     puts
-
     get_reprompt_input
   end
 
   def get_reprompt_input
-    case gets.chomp
+    case gets.chomp.downcase
     when "1"
       print_byte(BookBytes::Genre.current.name)
-      swipe_prompt
-    when "2" || "back" || "list"
+    when "2", "back", "list"
       list_genres
     when "3"
       @viewed_likes = true
@@ -144,7 +139,7 @@ class BookBytes::CLI
     else
       puts "Hmm, that's not valid input. Try again."
       puts
-      reprompt
+      get_reprompt_input
     end
   end
 
@@ -161,12 +156,14 @@ class BookBytes::CLI
         print "#{i + 1}) "
       end
 
-      print "#{b.title}' by #{b.author}"
+      print "'#{b.title}' by #{b.author}"
       puts
     end
-      puts
-      puts "-------------------------------"
+
+    puts
+    puts "-------------------------------"
     sleep 3
+
     reprompt
   end
       

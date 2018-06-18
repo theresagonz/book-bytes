@@ -6,18 +6,14 @@ class BookBytes::Scraper
   def self.genre
     @genre
   end
-
-  def self.get_genres
-    Nokogiri::HTML(open("http://www.bookdaily.com/browse")).css("section.genre-categories")
-  end
-
   
   def self.get_genre_page(genre_name)
     @genre = BookBytes::Genre.find_genre(genre_name)
-    genre_html = get_genres.css("li > h3").detect do |genre|
-      title = genre.css("a").attribute("title").value
-      title == genre_name
+
+    genre_html = Nokogiri::HTML(open("http://www.bookdaily.com/browse")).css("section.genre-categories li > h3").detect do |genre|
+      genre.css("a").attribute("title").value == genre_name
     end
+    
     extension = genre_html.css("a").attribute("href").value
 
     "http://www.bookdaily.com#{extension}?perpage=60"
@@ -26,6 +22,7 @@ class BookBytes::Scraper
   def self.get_random_book_page(genre_name)
     # from the genre page with many books, get a random book page
     url = Nokogiri::HTML(open(get_genre_page(genre_name))).css("#nodeGrid article:nth-child(#{rand(59) + 1}) a").attribute("href").value
+
     "http://www.bookdaily.com#{url}"
   end
   
