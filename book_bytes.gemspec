@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["theresa.l.morelli@gmail.com"]
 
   spec.summary       = %q{Book serendipity in small bytes}
-  spec.description   = %q{Choose a genre you love and read the first bit of one book at a time}
+  spec.description   = %q{Choose a genre you love and read the beginning of one random book at a time}
   spec.homepage      = "https://github.com/theresamorelli/book-bytes"
   spec.license       = "MIT"
 
@@ -29,7 +29,10 @@ Gem::Specification.new do |spec|
     `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   end
   spec.bindir        = "exe"
-  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
+  spec.executables   = spec.files.grep(%r{^exe/}) do |f|
+    File.basename(f)
+    f.executables = ["books"]
+  end
   spec.require_paths = ["lib"]
 
   spec.add_dependency "nokogiri", "~> 1.8.2"
