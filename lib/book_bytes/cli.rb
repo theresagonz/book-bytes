@@ -4,7 +4,6 @@ class BookBytes::CLI
   attr_accessor :viewed_likes
 
   def call
-    @viewed_likes = false
     hello
     BookBytes::Genre.generate_genres
     list_genres
@@ -12,18 +11,24 @@ class BookBytes::CLI
 
   def hello
     puts
-    puts "-------------------------------"
-    puts "***** WELCOME TO BOOKBYTES ****"
-    puts "Book serendipity in small bytes"
-    puts "-------------------------------"
+    puts "_________________________________"
     puts
-    puts "    Pick a genre, any genre"
+    puts "****  WELCOME TO BOOK BYTES  ****"
+    puts
+    puts "       DISCOVER NEW READS"
+    puts "    THROUGH BYTE-SIZED CHUNKS"
+    puts
+    puts "_________________________________"
+    puts
+    puts "  *  Pick a genre, any genre  *"
     puts
   end
     
   def list_genres
-    puts "-------------------------------"
-    puts "      *** GENRES ***"
+    # puts "_________________________________"
+    puts
+    puts "***********  GENRES  ************"
+    puts
 
     BookBytes::Genre.all.each_with_index do |g, i|
       puts "[#{i + 1}] #{g.name}"
@@ -66,11 +71,13 @@ class BookBytes::CLI
     else
       puts "Here's the beginning of a #{genre_name} book:"
     end
-    puts "-------------------------------"
+    
+    puts  "____________________________________"
     puts
     puts BookBytes::Scraper.get_random_book(genre_name).text
     puts
-    puts "-------------------------------"
+    
+    puts  "____________________________________"
     sleep 7
 
     swipe_prompt
@@ -111,7 +118,7 @@ class BookBytes::CLI
     messages = ["Glad you dig it!", "Yay for books!", "Book yeah!", "We like that one too!", "Love at first byte!"]
 
     if self.viewed_likes == false
-      puts "-------------------------------"
+      puts "_________________________________"
       puts
       puts messages[rand(messages.length)]
     end
@@ -161,7 +168,7 @@ class BookBytes::CLI
     end
 
     puts
-    puts "-------------------------------"
+    puts "_________________________________"
     sleep 3
 
     reprompt
@@ -170,7 +177,7 @@ class BookBytes::CLI
   def goodbye
     puts
     puts "Book excerpts courtesy of bookdaily.com"
-    puts "Thanks for stopping by :)"
+    puts "Thanks for stopping by!"
     puts
   end
 end

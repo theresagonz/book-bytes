@@ -1,14 +1,6 @@
 #!/usr/bin/env ruby
 
-require 'rubygems'
-require 'nokogiri'
-require 'open-uri'
-
-require "bundler/setup"
-require "book_bytes/cli"
-require "book_bytes/book"
-require "book_bytes/genre"
-require "book_bytes/scraper"
+require_relative "../lib/book_bytes.rb"
 
 BookBytes::CLI.new.call
 
