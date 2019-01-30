@@ -2,7 +2,7 @@
 
 Welcome to BookBytes where you can discover awesome new books or rediscover old favorites.
 
-Read the first few paragraphs of a random book in a category you choose, then decide whether you want title and author information.
+Read the first few paragraphs of a random book in a category of your choice. If you're intrigued, get title and author information. If not, get another byte from the same or a different category. Your favorite books are saved in a list for easy reference.
 
 ## Installation
 
