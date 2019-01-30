@@ -1,6 +1,8 @@
 # BookBytes
 
-Welcome to BookBytes where you can discover awesome new books or rediscover old favorites. Read the first few paragraphs of a random book in a category you choose, then decide whether you want more information.
+Welcome to BookBytes where you can discover awesome new books or rediscover old favorites.
+
+Read the first few paragraphs of a random book in a category you choose, then decide whether you want title and author information.
 
 ## Installation
 
